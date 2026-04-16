@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PadiMarkit — Africa's Most Trusted Trade Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0E0E0E; --bg2:#161616; --bg3:#1E1E1E; --card:#1A1A1A; --border:#2A2A2A;
+    --orange:#FF6B2B; --orange-dim:rgba(255,107,43,0.1);
+    --green:#2DD87A; --green-dim:rgba(45,216,122,0.09);
+    --yellow:#FFD166; --red:#FF4545;
+    --text:#F0EDE8; --muted:#72726A; --light:#A8A49E;
+    --r:14px; --rs:8px;
+    --head:'Plus Jakarta Sans',sans-serif;
+    --body:'DM Sans',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:#2e2e2e;border-radius:3px}
+
+  h1,h2,h3,h4,h5{font-family:var(--head);font-weight:700;line-height:1.2;}
+  h1{font-size:clamp(2.2rem,4.5vw,3.8rem);letter-spacing:-0.8px;}
+  h2{font-size:clamp(1.6rem,2.8vw,2.4rem);letter-spacing:-0.4px;}
+
+  /* LAYOUT */
+  .pad{padding:88px max(5%,calc(50% - 580px));}
+  nav,footer,.trust-bar{padding-left:max(5%,calc(50% - 580px));padding-right:max(5%,calc(50% - 580px));}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(14,14,14,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;width:100%;}
+  .logo{font-family:var(--head);font-weight:800;font-size:1.05rem;letter-spacing:-0.2px;white-space:nowrap;}
+  .logo span{color:var(--orange);}
+  .nav-links{display:flex;gap:26px;}
+  .nav-links a{color:var(--light);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color .2s;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{background:var(--orange);color:#fff;border:none;padding:9px 20px;border-radius:100px;font-family:var(--body);font-weight:600;font-size:0.82rem;cursor:pointer;transition:all .2s;white-space:nowrap;}
+  .nav-cta:hover{background:#ff8550;}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:96px max(5%,calc(50% - 580px)) 76px;background:radial-gradient(ellipse 60% 55% at 85% 35%,rgba(255,107,43,.07) 0%,transparent 60%),radial-gradient(ellipse 45% 50% at 15% 70%,rgba(45,216,122,.05) 0%,transparent 60%),var(--bg);}
+  .pill{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,107,43,.28);background:var(--orange-dim);color:var(--orange);padding:5px 13px;border-radius:100px;font-size:0.7rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;margin-bottom:22px;width:fit-content;}
+  .pill::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--orange);animation:blink 2s infinite;flex-shrink:0;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  .accent{color:var(--orange);}
+  .hero-sub{color:var(--light);font-size:1rem;max-width:490px;margin-top:14px;line-height:1.78;}
+  .hero-actions{display:flex;gap:11px;margin-top:32px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:100px;font-family:var(--body);font-weight:600;font-size:0.875rem;cursor:pointer;transition:all .22s;border:none;}
+  .btn-o{background:var(--orange);color:#fff;} .btn-o:hover{background:#ff8550;transform:translateY(-1px);box-shadow:0 10px 26px rgba(255,107,43,.28);}
+  .btn-g{background:var(--green);color:#0a0a0a;} .btn-g:hover{background:#4fe890;transform:translateY(-1px);}
+  .btn-gh{background:transparent;color:var(--text);border:1.5px solid var(--border);} .btn-gh:hover{border-color:var(--orange);color:var(--orange);}
+  .hero-stats{display:flex;gap:42px;margin-top:52px;flex-wrap:wrap;}
+  .stat-num{font-family:var(--head);font-weight:800;font-size:1.85rem;color:var(--text);}
+  .stat-label{color:var(--muted);font-size:0.76rem;margin-top:3px;font-weight:500;}
+
+  /* TRUST BAR */
+  .trust-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding-top:15px;padding-bottom:15px;display:flex;align-items:center;gap:34px;overflow-x:auto;scrollbar-width:none;}
+  .trust-bar::-webkit-scrollbar{display:none}
+  .trust-item{display:flex;align-items:center;gap:6px;white-space:nowrap;color:var(--muted);font-size:0.76rem;font-weight:500;}
+
+  /* TAGS */
+  .tag{display:inline-block;padding:3px 11px;border-radius:100px;font-size:0.67rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;margin-bottom:11px;}
+  .tg{background:var(--green-dim);color:var(--green);border:1px solid rgba(45,216,122,.2);}
+  .to{background:var(--orange-dim);color:var(--orange);border:1px solid rgba(255,107,43,.2);}
+  .ty{background:rgba(255,209,102,.09);color:var(--yellow);border:1px solid rgba(255,209,102,.2);}
+  .tr{background:rgba(255,69,69,.09);color:var(--red);border:1px solid rgba(255,69,69,.2);}
+  .sub{color:var(--light);font-size:0.93rem;margin-top:9px;line-height:1.76;max-width:470px;}
+
+  /* VERTICALS */
+  .verticals{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:44px;background:var(--border);border-radius:var(--r);overflow:hidden;}
+  .vc{background:var(--bg2);padding:30px 24px;cursor:pointer;transition:background .2s;position:relative;}
+  .vc:hover{background:var(--bg3);}
+  .vc.on{background:var(--card);}
+  .vc.on::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+  .vc:nth-child(1).on::after{background:var(--orange);}
+  .vc:nth-child(2).on::after{background:var(--red);}
+  .vc:nth-child(3).on::after{background:var(--yellow);}
+  .vi{font-size:1.7rem;margin-bottom:10px;}
+  .vt{font-family:var(--head);font-weight:700;font-size:1.05rem;}
+  .vb{display:inline-block;margin-top:5px;padding:2px 8px;border-radius:100px;font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+  .vb-bulk{background:rgba(255,209,102,.1);color:var(--yellow);}
+  .vb-bid{background:rgba(255,69,69,.09);color:var(--red);}
+  .vb-book{background:var(--green-dim);color:var(--green);}
+  .vd{color:var(--muted);font-size:0.83rem;margin-top:9px;line-height:1.63;}
+  .vcta{display:inline-flex;align-items:center;gap:5px;margin-top:16px;font-size:0.8rem;font-weight:600;background:none;border:none;cursor:pointer;font-family:var(--body);padding:0;}
+  .vc:nth-child(1) .vcta{color:var(--orange);}
+  .vc:nth-child(2) .vcta{color:var(--red);}
+  .vc:nth-child(3) .vcta{color:var(--yellow);}
+
+  /* MARKETPLACE */
+  .filter-bar{display:flex;gap:7px;flex-wrap:wrap;margin:20px 0;}
+  .fb{background:var(--bg3);border:1px solid var(--border);color:var(--light);padding:6px 14px;border-radius:100px;font-size:0.76rem;font-weight:600;cursor:pointer;transition:all .18s;font-family:var(--body);}
+  .fb:hover{border-color:var(--orange);color:var(--orange);}
+  .fb.on{background:var(--orange);border-color:var(--orange);color:#fff;}
+  .fb.on-r{background:var(--red);border-color:var(--red);color:#fff;}
+  .fb.on-y{background:var(--yellow);border-color:var(--yellow);color:#000;}
+  .mkt-split{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:44px;}
+  .mcol h3{font-family:var(--head);font-weight:700;font-size:0.95rem;margin-bottom:5px;}
+  .mcol .cs{font-size:0.78rem;color:var(--muted);margin-bottom:16px;line-height:1.65;}
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+
+  /* PRODUCT CARDS */
+  .pc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .22s;display:flex;flex-direction:column;}
+  .pc:hover{transform:translateY(-3px);border-color:#333;box-shadow:0 12px 32px rgba(0,0,0,.4);}
+  .pc.hidden{display:none;}
+  .pimg{height:148px;display:flex;align-items:center;justify-content:center;font-size:3.4rem;position:relative;background:#1A1A1A;}
+  .pbadge{position:absolute;top:7px;left:7px;padding:3px 8px;border-radius:100px;font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+  .pb-bid{background:rgba(255,69,69,.14);color:var(--red);border:1px solid rgba(255,69,69,.28);}
+  .pb-bulk{background:rgba(255,209,102,.11);color:var(--yellow);border:1px solid rgba(255,209,102,.24);}
+  .pinfo{padding:13px;flex:1;display:flex;flex-direction:column;}
+  .pname{font-family:var(--head);font-weight:700;font-size:0.875rem;line-height:1.3;}
+  .pmeta{color:var(--muted);font-size:0.72rem;margin-top:2px;}
+  .bid-row{margin-top:9px;padding-top:9px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+  .brs{font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;}
+  .brv{font-family:var(--head);font-weight:700;font-size:0.85rem;margin-top:2px;}
+  .brv.hp{color:var(--red);} .brv.pr{color:var(--orange);}
+  .btimer{grid-column:1/-1;background:rgba(255,69,69,.06);border:1px solid rgba(255,69,69,.14);border-radius:6px;padding:5px 9px;font-size:0.72rem;color:var(--red);font-weight:600;}
+  .bulk-row{margin-top:9px;padding-top:9px;border-top:1px solid var(--border);}
+  .bprice{font-family:var(--head);font-weight:800;font-size:1.05rem;color:var(--yellow);}
+  .bunit{font-size:0.7rem;color:var(--muted);font-weight:400;font-family:var(--body);margin-left:4px;}
+  .bmoq{font-size:0.7rem;color:var(--muted);margin-top:2px;}
+  .pact{margin-top:10px;border-radius:100px;padding:7px 13px;font-size:0.76rem;font-weight:600;cursor:pointer;width:100%;transition:all .18s;font-family:var(--body);border:1px solid;}
+  .pa-bid{background:rgba(255,69,69,.07);color:var(--red);border-color:rgba(255,69,69,.22);} .pa-bid:hover{background:var(--red);color:#fff;}
+  .pa-bulk{background:rgba(255,209,102,.07);color:var(--yellow);border-color:rgba(255,209,102,.22);} .pa-bulk:hover{background:var(--yellow);color:#000;}
+
+  /* HIW */
+  .hiw-tabs{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--border);padding:3px;border-radius:100px;width:fit-content;margin:22px 0 38px;}
+  .ht{padding:8px 19px;border-radius:100px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all .2s;border:none;background:none;color:var(--muted);font-family:var(--body);}
+  .ht.on{background:var(--orange);color:#fff;}
+  .hc{display:none;}
+  .hc.on{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;}
+  .steps{display:flex;flex-direction:column;gap:22px;}
+  .step{display:flex;gap:14px;}
+  .sn{width:36px;height:36px;border-radius:50%;border:1.5px solid;display:flex;align-items:center;justify-content:center;font-family:var(--head);font-weight:800;font-size:0.82rem;flex-shrink:0;margin-top:2px;}
+  .sno{background:var(--orange-dim);border-color:rgba(255,107,43,.3);color:var(--orange);}
+  .snr{background:rgba(255,69,69,.07);border-color:rgba(255,69,69,.28);color:var(--red);}
+  .sny{background:rgba(255,209,102,.07);border-color:rgba(255,209,102,.26);color:var(--yellow);}
+  .sb h4{font-family:var(--head);font-weight:700;font-size:0.92rem;}
+  .sb p{color:var(--muted);font-size:0.83rem;margin-top:3px;line-height:1.63;}
+  .hv{background:var(--bg2);border:1px solid var(--border);border-radius:15px;padding:26px;display:flex;flex-direction:column;gap:11px;}
+  .ec{background:var(--card);border:1px solid var(--border);border-radius:var(--rs);padding:13px;}
+  .ec h5{font-family:var(--head);font-weight:700;font-size:0.85rem;}
+  .ec p{color:var(--muted);font-size:0.73rem;margin-top:3px;}
+  .et{display:inline-block;padding:3px 8px;border-radius:100px;font-size:0.63rem;font-weight:700;margin-top:6px;text-transform:uppercase;}
+  .ep{background:rgba(255,209,102,.1);color:var(--yellow);} .ei{background:rgba(74,144,226,.1);color:#6db3ff;} .ed{background:var(--green-dim);color:var(--green);} .el{background:rgba(255,69,69,.09);color:var(--red);}
+
+  /* ARTISANS */
+  .agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:12px;margin-top:34px;}
+  .acard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:21px;cursor:pointer;transition:all .22s;}
+  .acard:hover{transform:translateY(-2px);border-color:#333;}
+  .aav{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:11px;}
+  .an{font-family:var(--head);font-weight:700;font-size:0.88rem;}
+  .ar{color:var(--muted);font-size:0.76rem;margin-top:2px;}
+  .arating{display:flex;align-items:center;gap:4px;margin-top:8px;}
+  .stars{color:var(--yellow);font-size:0.8rem;}
+  .rn{color:var(--light);font-size:0.76rem;font-weight:600;}
+  .astats{display:flex;gap:14px;margin-top:11px;}
+  .asv{font-family:var(--head);font-weight:700;font-size:0.85rem;}
+  .asl{color:var(--muted);font-size:0.66rem;}
+  .bkbtn{width:100%;margin-top:13px;background:var(--green-dim);color:var(--green);border:1px solid rgba(45,216,122,.22);border-radius:100px;padding:7px;font-size:0.76rem;font-weight:600;cursor:pointer;transition:all .18s;font-family:var(--body);}
+  .bkbtn:hover{background:var(--green);color:#000;}
+
+  /* FORMS */
+  .fwrap{max-width:600px;margin:36px auto 0;background:var(--bg2);border:1px solid var(--border);border-radius:17px;padding:34px;}
+  .ftitle{font-family:var(--head);font-weight:800;font-size:1.28rem;}
+  .fnote{color:var(--muted);font-size:0.8rem;margin-top:4px;line-height:1.6;}
+  .nbox{border-radius:var(--rs);padding:11px 14px;margin-top:14px;font-size:0.8rem;line-height:1.6;}
+  .nb-o{background:var(--orange-dim);border:1px solid rgba(255,107,43,.2);color:var(--orange);}
+  .nb-r{background:rgba(255,69,69,.07);border:1px solid rgba(255,69,69,.18);color:var(--red);}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:22px;}
+  .fg{display:flex;flex-direction:column;gap:5px;}
+  .fg.full{grid-column:1/-1;}
+  label{font-size:0.76rem;font-weight:600;color:var(--light);font-family:var(--body);}
+  input,select,textarea{background:var(--bg3);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);padding:10px 12px;font-family:var(--body);font-size:0.85rem;transition:border-color .2s;outline:none;width:100%;}
+  input:focus,select:focus,textarea:focus{border-color:var(--orange);}
+  textarea{resize:vertical;min-height:82px;}
+  select option{background:#1E1E1E;}
+  .crow{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+  .cbtn{background:var(--bg3);border:1.5px solid var(--border);color:var(--muted);padding:8px;border-radius:var(--rs);font-size:0.76rem;font-weight:600;cursor:pointer;text-align:center;transition:all .18s;font-family:var(--body);}
+  .cbtn.on{border-color:var(--green);color:var(--green);background:var(--green-dim);}
+  .sbtn{width:100%;margin-top:18px;border:none;padding:12px;border-radius:100px;font-family:var(--body);font-weight:700;font-size:0.92rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .22s;}
+  .sb-o{background:var(--orange);color:#fff;} .sb-o:hover{background:#ff8550;transform:translateY(-1px);}
+  .sb-r{background:var(--red);color:#fff;} .sb-r:hover{background:#ff6b6b;transform:translateY(-1px);}
+  .sb-y{background:var(--yellow);color:#0a0a0a;} .sb-y:hover{background:#ffe08a;}
+  .smsg{display:none;text-align:center;padding:34px 18px;}
+  .si{font-size:2.6rem;margin-bottom:9px;}
+  .smsg h3{font-family:var(--head);font-weight:800;font-size:1.25rem;}
+  .smsg p{color:var(--muted);margin-top:6px;font-size:0.85rem;}
+  .rid{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:9px 16px;margin-top:12px;font-family:var(--head);font-weight:700;font-size:0.85rem;color:var(--orange);}
+
+  /* INVEST */
+  .igrid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;margin-top:44px;}
+  .olist{display:flex;flex-direction:column;gap:15px;margin-top:22px;}
+  .oi{display:flex;gap:11px;}
+  .od{width:6px;height:6px;border-radius:50%;background:var(--orange);margin-top:8px;flex-shrink:0;}
+  .ot h4{font-family:var(--head);font-weight:700;font-size:0.9rem;}
+  .ot p{color:var(--muted);font-size:0.8rem;margin-top:3px;line-height:1.63;}
+  .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  .mc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;}
+  .mv{font-family:var(--head);font-weight:800;font-size:1.55rem;color:var(--orange);}
+  .ml{color:var(--muted);font-size:0.73rem;margin-top:4px;line-height:1.5;}
+  .mc.s2{grid-column:1/-1;background:var(--orange-dim);border-color:rgba(255,107,43,.22);}
+
+  /* TESTIMONIALS */
+  .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:34px;}
+  .tc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:24px;}
+  .tstars{color:var(--yellow);font-size:0.82rem;margin-bottom:10px;}
+  .tt{color:var(--light);font-size:0.86rem;line-height:1.76;font-style:italic;}
+  .ta{margin-top:16px;display:flex;align-items:center;gap:8px;}
+  .tav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.95rem;}
+  .tn{font-family:var(--head);font-weight:700;font-size:0.8rem;}
+  .tr2{color:var(--muted);font-size:0.7rem;}
+
+  /* FOOTER */
+  footer{background:var(--bg2);border-top:1px solid var(--border);padding-top:52px;padding-bottom:34px;}
+  .fgridout{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:38px;}
+  .fb2 .logo{font-size:1.1rem;}
+  .fb2 p{color:var(--muted);font-size:0.8rem;margin-top:9px;max-width:235px;line-height:1.7;}
+  .fflags{margin-top:10px;font-size:0.74rem;color:#444;line-height:1.85;}
+  .fc h5{font-family:var(--head);font-weight:700;font-size:0.8rem;margin-bottom:11px;}
+  .fc a{display:block;color:var(--muted);font-size:0.78rem;text-decoration:none;margin-bottom:6px;transition:color .18s;}
+  .fc a:hover{color:var(--text);}
+  .fbot{border-top:1px solid var(--border);margin-top:34px;padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+  .fbot p{color:var(--muted);font-size:0.73rem;}
+  .slinks{display:flex;gap:9px;}
+  .sl{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.82rem;text-decoration:none;transition:all .18s;}
+  .sl:hover{background:var(--orange);border-color:var(--orange);}
+
+  /* MODAL */
+  .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(5px);z-index:200;align-items:center;justify-content:center;padding:18px;}
+  .mo.on{display:flex;}
+  .md{background:var(--bg2);border:1px solid var(--border);border-radius:17px;padding:30px;max-width:450px;width:100%;position:relative;animation:mIn .22s ease;max-height:90vh;overflow-y:auto;}
+  @keyframes mIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+  .mclose{position:absolute;top:13px;right:13px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:0.88rem;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+  .mclose:hover{color:var(--text);}
+  .memi{font-size:3.8rem;text-align:center;margin-bottom:13px;}
+  .mname{font-family:var(--head);font-weight:800;font-size:1.15rem;}
+  .mprice{font-family:var(--head);font-weight:800;font-size:1.4rem;color:var(--orange);margin-top:5px;}
+  .mdesc{color:var(--light);font-size:0.83rem;line-height:1.72;margin-top:9px;}
+  .mspecs{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px;}
+  .msi{background:var(--bg3);border-radius:var(--rs);padding:10px;}
+  .msk{color:var(--muted);font-size:0.65rem;text-transform:uppercase;letter-spacing:.3px;}
+  .msv{font-weight:600;font-size:0.83rem;margin-top:2px;}
+  .macts{display:flex;gap:8px;margin-top:18px;}
+  .macts button{flex:1;padding:10px;border-radius:100px;font-family:var(--body);font-weight:600;font-size:0.82rem;cursor:pointer;transition:all .18s;}
+  .mb1{background:var(--red);color:#fff;border:none;} .mb1:hover{background:#ff6b6b;}
+  .mb2{background:var(--orange);color:#fff;border:none;} .mb2:hover{background:#ff8550;}
+  .mbs{background:var(--bg3);color:var(--text);border:1.5px solid var(--border);} .mbs:hover{border-color:var(--orange);color:var(--orange);}
+  .lbb{background:rgba(255,69,69,.07);border:1px solid rgba(255,69,69,.18);border-radius:var(--rs);padding:11px 14px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .lbs{text-align:center;}
+  .lbl{font-size:0.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;}
+  .lbv{font-family:var(--head);font-weight:800;font-size:0.95rem;color:var(--red);margin-top:2px;}
+
+  /* WA */
+  .wa{position:fixed;bottom:24px;right:24px;z-index:99;background:#25D366;color:#fff;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.45rem;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,.36);transition:all .22s;}
+  .wa:hover{transform:scale(1.1);}
+
+  @media(max-width:900px){
+    .verticals,.mkt-split,.hc.on,.igrid,.tgrid{grid-template-columns:1fr;}
+    .fgridout{grid-template-columns:1fr 1fr;}
+    .nav-links{display:none;}
+    .fgrid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="logo">Padi<span>Markit</span></div>
+    <div class="nav-links">
+      <a href="#marketplace">Marketplace</a>
+      <a href="#howitworks">How it Works</a>
+      <a href="#artisans">Artisans</a>
+      <a href="#testimonials">About</a>
+    </div>
+    <button class="nav-cta" onclick="go('#getadeal')">Get a Bulk Deal</button>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="pill">🌍 Live across Africa — Starting in Lagos</div>
+  <h1>Africa's most trusted<br>platform for <span class="accent">everyday trade.</span></h1>
+  <p class="hero-sub">Bulk procurement at verified wholesale prices. Live bidding on anything — phones, cars, furniture, appliances. Vetted artisans that show up. One platform, built for Africa.</p>
+  <div class="hero-actions">
+    <button class="btn btn-o" onclick="go('#getadeal')">🛒 Bulk Deal Request</button>
+    <button class="btn btn-g" onclick="go('#sellanitem')">🔨 List Item for Bids</button>
+    <button class="btn btn-gh" onclick="go('#bookanartisan')">🔧 Book Artisan</button>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num" data-target="8400">0</div><div class="stat-label">Transactions completed</div></div>
+    <div><div class="stat-num" data-target="1200">0</div><div class="stat-label">Verified artisans</div></div>
+    <div><div class="stat-num" data-target="98" data-suffix="%">0</div><div class="stat-label">Satisfaction rate</div></div>
+    <div><div class="stat-num" data-target="6" data-suffix=" countries">0</div><div class="stat-label">Active markets</div></div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-item">🇳🇬 Nigeria</div><div class="trust-item">🇬🇭 Ghana</div><div class="trust-item">🇰🇪 Kenya</div><div class="trust-item">🇿🇦 South Africa</div><div class="trust-item">🇨🇮 Côte d'Ivoire</div><div class="trust-item">🇹🇿 Tanzania</div>
+  <div class="trust-item">✅ Verified Suppliers</div><div class="trust-item">🔍 Market Price Intelligence</div><div class="trust-item">🛡️ Fraud Protection</div><div class="trust-item">⚡ Same-Day Response</div><div class="trust-item">📦 Delivery Coordination</div><div class="trust-item">⭐ Rated Network</div><div class="trust-item">↩️ Dispute Resolution</div>
+</div>
+
+<section class="pad" id="verticals" style="background:var(--bg2);">
+  <div class="tag tg">What We Do</div>
+  <h2>Three ways PadiMarkit<br>works for you</h2>
+  <div class="verticals">
+    <div class="vc on" onclick="setV(this)">
+      <div class="vi">🛒</div>
+      <div class="vt">Deals & Procurement</div>
+      <div><span class="vb vb-bulk">Bulk Orders Only</span></div>
+      <p class="vd">For businesses, restaurants, pharmacies, schools, and shops buying in volume. We source bulk goods at verified wholesale prices directly from trusted market hubs. Minimum order quantities apply. This is not a retail channel.</p>
+      <button class="vcta" onclick="event.stopPropagation();go('#getadeal')">Request Bulk Deal →</button>
+    </div>
+    <div class="vc" onclick="setV(this)">
+      <div class="vi">🔨</div>
+      <div class="vt">Bid & Sell</div>
+      <div><span class="vb vb-bid">Live Bidding</span></div>
+      <p class="vd">List anything — phones, laptops, cars, TVs, fridges, generators, sofas, baby gear, gym equipment, anything at all. Real buyers place competing bids in real time. The market sets the price. Your item goes to the highest bidder when time expires.</p>
+      <button class="vcta" onclick="event.stopPropagation();go('#sellanitem')">List for Bidding →</button>
+    </div>
+    <div class="vc" onclick="setV(this)">
+      <div class="vi">🔧</div>
+      <div class="vt">Fix & Services</div>
+      <div><span class="vb vb-book">Book & Track</span></div>
+      <p class="vd">Electricians, plumbers, AC technicians, carpenters, tilers, and painters — vetted, rated, and accountable across Lagos, Nairobi, Accra, Johannesburg, and beyond. Fixed appointments. No more no-shows.</p>
+      <button class="vcta" onclick="event.stopPropagation();go('#bookanartisan')">Book Artisan →</button>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="marketplace" style="background:var(--bg);">
+  <div class="tag to">Live Marketplace</div>
+  <h2>What's live right now</h2>
+  <p class="sub">Live bids on second-hand items of all kinds. Bulk deals on verified wholesale goods. Two markets. One platform.</p>
+  <div class="mkt-split">
+    <div class="mcol">
+      <h3 style="color:var(--red);">🔨 Live Bid Listings</h3>
+      <p class="cs">Phones, cars, appliances, furniture — anything. Bid to win. Countdown timers are live.</p>
+      <div class="filter-bar" id="bfilt">
+        <button class="fb on" onclick="fBid('all',this)">All Items</button>
+        <button class="fb" onclick="fBid('phones',this)">📱 Phones</button>
+        <button class="fb" onclick="fBid('cars',this)">🚗 Cars</button>
+        <button class="fb" onclick="fBid('appliances',this)">🏠 Appliances</button>
+        <button class="fb" onclick="fBid('furniture',this)">🛋️ Furniture</button>
+        <button class="fb" onclick="fBid('footwear',this)">👟 Footwear</button>
+      </div>
+      <div class="pgrid" id="bidGrid"></div>
+    </div>
+    <div class="mcol">
+      <h3 style="color:var(--yellow);">🛒 Bulk Deal Categories</h3>
+      <p class="cs">Wholesale only. Minimum order quantities apply. All prices verified at source markets.</p>
+      <div class="filter-bar" id="bkfilt">
+        <button class="fb on" onclick="fBulk('all',this)">All Categories</button>
+        <button class="fb" onclick="fBulk('fmcg',this)">🌾 FMCG</button>
+        <button class="fb" onclick="fBulk('hygiene',this)">🧴 Hygiene</button>
+        <button class="fb" onclick="fBulk('beverages',this)">🥤 Beverages</button>
+      </div>
+      <div class="pgrid" id="bulkGrid"></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="howitworks" style="background:var(--bg2);">
+  <div class="tag tg">How It Works</div>
+  <h2>Simple. Fast. Trusted.<br>Anywhere in Africa.</h2>
+  <div class="hiw-tabs">
+    <button class="ht on" onclick="setHiw('deal',this)">Bulk Deal</button>
+    <button class="ht" onclick="setHiw('sell',this)">Bid & Sell</button>
+    <button class="ht" onclick="setHiw('fix',this)">Book Artisan</button>
+  </div>
+  <div class="hc on" id="hiw-deal">
+    <div class="steps">
+      <div class="step"><div class="sn sno">01</div><div class="sb"><h4>Tell us your bulk requirement</h4><p>Product, quantity, delivery location, frequency. Minimum quantities apply — this is for volume buyers only, not single-item retail.</p></div></div>
+      <div class="step"><div class="sn sno">02</div><div class="sb"><h4>We verify pricing at source</h4><p>Field officers confirm live wholesale prices at Balogun and Mile 12 (Lagos), Makola (Accra), and Gikomba (Nairobi).</p></div></div>
+      <div class="step"><div class="sn sno">03</div><div class="sb"><h4>You get a verified bulk quote</h4><p>Wholesale price, logistics cost, and total landed cost — transparent, no hidden markups.</p></div></div>
+      <div class="step"><div class="sn sno">04</div><div class="sb"><h4>Confirm and receive</h4><p>Pay and we coordinate fulfilment end-to-end. Track every step with a unique request ID.</p></div></div>
+    </div>
+    <div class="hv">
+      <p style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">Sample Bulk Requests</p>
+      <div class="ec"><h5>🌾 Dangote Rice 50kg × 40 bags</h5><p>Budget: ₦1.6M · Victoria Island, Lagos · Monthly supply</p><span class="et ed">✓ Fulfilled — ₦38,200/bag delivered</span></div>
+      <div class="ec"><h5>☕ Arabica Coffee Beans — 100kg Grade AA</h5><p>Budget: KSh 90,000 · Westlands, Nairobi · Recurring</p><span class="et ei">⏳ In Progress — Quote sent</span></div>
+      <div class="ec"><h5>🧴 Pampers Size 3 — 500 packs</h5><p>Budget: ₦5.5M · Kano, Nigeria · Pharmacy chain</p><span class="et ep">📋 New — Under review</span></div>
+    </div>
+  </div>
+  <div class="hc" id="hiw-sell">
+    <div class="steps">
+      <div class="step"><div class="sn snr">01</div><div class="sb"><h4>List your item with a starting bid</h4><p>Any item — phone, car, laptop, fridge, generator, sofa, shoes, baby pram, anything at all. Set a starting price and auction duration (24h to 7 days).</p></div></div>
+      <div class="step"><div class="sn snr">02</div><div class="sb"><h4>We verify and publish your listing</h4><p>Our team reviews your description and photos to confirm condition is accurately represented, then publishes to our buyer network.</p></div></div>
+      <div class="step"><div class="sn snr">03</div><div class="sb"><h4>Buyers bid in real time</h4><p>Registered buyers place competing bids. A countdown timer creates urgency. You watch the price climb. The highest bid wins when time expires.</p></div></div>
+      <div class="step"><div class="sn snr">04</div><div class="sb"><h4>Highest bidder wins — you get paid</h4><p>Buyer pays through PadiMarkit. We coordinate handover and release your payout within 24 hours of confirmed delivery.</p></div></div>
+    </div>
+    <div class="hv">
+      <p style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">Active Auctions</p>
+      <div class="ec"><h5>🚗 Toyota Camry 2015 — Fabric, Silver</h5><p>Lagos · Starting bid ₦4.2M · 14 bids placed</p><span class="et el">🔴 Live — 6h 22m remaining</span></div>
+      <div class="ec"><h5>📱 iPhone 14 Pro — 256GB, Deep Purple</h5><p>Accra · Starting bid GH₵ 3,400 · 8 bids</p><span class="et el">🔴 Live — 11h remaining</span></div>
+      <div class="ec"><h5>🛋️ L-Shaped Sectional Sofa — Grey</h5><p>Nairobi · Starting bid KSh 28,000 · 5 bids</p><span class="et ed">✓ Sold — KSh 41,500 final bid</span></div>
+    </div>
+  </div>
+  <div class="hc" id="hiw-fix">
+    <div class="steps">
+      <div class="step"><div class="sn sny">01</div><div class="sb"><h4>Describe the job</h4><p>Type of work, urgency, location, preferred time window. Takes under 90 seconds.</p></div></div>
+      <div class="step"><div class="sn sny">02</div><div class="sb"><h4>We match you with the best artisan</h4><p>Skill, proximity, rating, and availability — we find the right person, not just the nearest available.</p></div></div>
+      <div class="step"><div class="sn sny">03</div><div class="sb"><h4>Confirm the appointment</h4><p>You get the artisan's name, estimated price range, and exact time window. A small booking fee applies upfront.</p></div></div>
+      <div class="step"><div class="sn sny">04</div><div class="sb"><h4>Job done. Rate and pay.</h4><p>Artisan completes the work. You rate the experience. Every rating strengthens the trust network across Africa.</p></div></div>
+    </div>
+    <div class="hv">
+      <p style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">Recent Jobs</p>
+      <div class="ec"><h5>⚡ Tripping circuit breaker — 2 sockets needed</h5><p>Agungi, Lagos · Emmanuel (Electrician) · Urgent</p><span class="et ed">✓ Completed · ⭐⭐⭐⭐⭐</span></div>
+      <div class="ec"><h5>❄️ AC not cooling — Samsung 2HP Split</h5><p>Kilimani, Nairobi · James (AC Tech) · Tomorrow 10am</p><span class="et ei">⏳ Confirmed appointment</span></div>
+      <div class="ec"><h5>🚰 Blocked drain + leaking pipe</h5><p>East Legon, Accra · Plumber needed · Today</p><span class="et ep">📋 Matching artisan...</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="artisans" style="background:var(--bg);">
+  <div class="tag ty">Fix & Services</div>
+  <h2>Verified artisans across Africa</h2>
+  <p class="sub">Vetted, rated, and accountable — from Lagos to Nairobi to Johannesburg. Background-checked and consistently reviewed.</p>
+  <div class="agrid" id="artisansGrid"></div>
+</section>
+
+<section class="pad" id="getadeal" style="background:var(--bg2);">
+  <div style="text-align:center;">
+    <div class="tag to">Deals & Procurement</div>
+    <h2>Request a Bulk Deal</h2>
+    <p class="sub" style="margin:0 auto;">For businesses and high-volume buyers. We source at verified wholesale prices directly from market hubs.</p>
+  </div>
+  <div class="fwrap">
+    <div id="dealForm">
+      <div class="ftitle">🛒 Bulk Purchase Request</div>
+      <div class="nbox nb-o">⚠️ Bulk orders only. This channel does not handle single-item retail purchases. Minimum order quantities apply per category.</div>
+      <div class="fgrid">
+        <div class="fg full"><label>Products needed and quantities</label><input type="text" id="dP" placeholder="e.g. Dangote Rice 50kg × 50 bags, Mamador Oil 5L × 100 bottles" /></div>
+        <div class="fg"><label>Buyer type</label><select id="dBt"><option>Retail shop / mini-mart</option><option>Restaurant / food business</option><option>Pharmacy / health store</option><option>School / institution</option><option>Hotel / hospitality</option><option>Wholesale distributor</option><option>Other business</option></select></div>
+        <div class="fg"><label>Order frequency</label><select id="dFq"><option>One-off bulk purchase</option><option>Weekly recurring</option><option>Monthly recurring supply</option><option>Ongoing supply contract</option></select></div>
+        <div class="fg"><label>Budget range (total order)</label><select id="dBu"><option>₦100,000 – ₦500,000</option><option>₦500,000 – ₦2,000,000</option><option>₦2M – ₦10M</option><option>Above ₦10M</option><option>KSh equivalent</option><option>GH₵ equivalent</option></select></div>
+        <div class="fg"><label>Country</label><select id="dCo"><option>Nigeria 🇳🇬</option><option>Ghana 🇬🇭</option><option>Kenya 🇰🇪</option><option>South Africa 🇿🇦</option><option>Senegal 🇸🇳</option><option>Tanzania 🇹🇿</option><option>Other</option></select></div>
+        <div class="fg"><label>Delivery city / area</label><input type="text" id="dLo" placeholder="e.g. Ikeja Lagos, Westlands Nairobi" /></div>
+        <div class="fg"><label>Contact method</label><select id="dCt"><option>WhatsApp</option><option>Phone call</option><option>Email</option></select></div>
+        <div class="fg"><label>WhatsApp / Phone</label><input type="text" id="dPh" placeholder="+234 800 000 0000" /></div>
+        <div class="fg full"><label>Brand preferences or quality notes (optional)</label><textarea id="dNo" placeholder="e.g. Must be Dangote brand. No resealed stock. Grade A only."></textarea></div>
+      </div>
+      <button class="sbtn sb-o" onclick="subDeal()">Submit Bulk Request →</button>
+    </div>
+    <div class="smsg" id="dealOk"><div class="si">✅</div><h3>Bulk Request Received!</h3><p>Our procurement team will verify pricing at source and send a quote within 2 hours.</p><div class="rid" id="dId">PM-BULK-XXXX</div></div>
+  </div>
+</section>
+
+<section class="pad" id="sellanitem" style="background:var(--bg);">
+  <div style="text-align:center;">
+    <div class="tag tr">Bid & Sell</div>
+    <h2>List Your Item for Bidding</h2>
+    <p class="sub" style="margin:0 auto;">Phones, cars, laptops, furniture, generators, appliances — anything at all. Real buyers bid. You get the best price the market offers.</p>
+  </div>
+  <div class="fwrap">
+    <div id="sellForm">
+      <div class="ftitle">🔨 Create an Auction Listing</div>
+      <div class="nbox nb-r">🔴 Once published, your listing goes live immediately to our verified buyer network.</div>
+      <div class="fgrid">
+        <div class="fg"><label>Item category</label><select id="sC"><option>Smartphones & Tablets</option><option>Laptops & Computers</option><option>TVs & Sound Systems</option><option>Cars & Vehicles</option><option>Generators</option><option>Fridges & Freezers</option><option>AC Units</option><option>Furniture & Home Decor</option><option>Washing Machines</option><option>Kitchen Appliances</option><option>Footwear & Fashion</option><option>Baby Gear & Prams</option><option>Gym Equipment</option><option>Musical Instruments</option><option>Bicycles & Scooters</option><option>Artwork & Collectibles</option><option>Other</option></select></div>
+        <div class="fg"><label>Item brand, model, or name</label><input type="text" id="sB" placeholder="e.g. Toyota Camry 2015, iPhone 14 Pro" /></div>
+        <div class="fg full"><label>Condition</label><div class="crow"><div class="cbtn" onclick="pickC(this)">Like New</div><div class="cbtn" onclick="pickC(this)">Good</div><div class="cbtn" onclick="pickC(this)">Fair</div></div></div>
+        <div class="fg full"><label>Honest description (buyers will see exactly this)</label><textarea id="sD" placeholder="Be specific about any faults, scratches, or missing parts. Honest listings get more bids and faster sales."></textarea></div>
+        <div class="fg"><label>Starting bid price</label><input type="text" id="sSb" placeholder="e.g. ₦180,000 or KSh 45,000" /></div>
+        <div class="fg"><label>Auction duration</label><select id="sDu"><option>24 hours</option><option>48 hours</option><option>72 hours</option><option>7 days</option></select></div>
+        <div class="fg"><label>Reserve price (minimum you'll accept, hidden)</label><input type="text" id="sR" placeholder="Optional" /></div>
+        <div class="fg"><label>Country</label><select id="sCo"><option>Nigeria 🇳🇬</option><option>Ghana 🇬🇭</option><option>Kenya 🇰🇪</option><option>South Africa 🇿🇦</option><option>Senegal 🇸🇳</option><option>Tanzania 🇹🇿</option><option>Other</option></select></div>
+        <div class="fg"><label>City / area</label><input type="text" id="sL" placeholder="e.g. Lekki, Kilimani, East Legon" /></div>
+        <div class="fg"><label>WhatsApp / Phone</label><input type="text" id="sPh" placeholder="+234 800 000 0000" /></div>
+      </div>
+      <button class="sbtn sb-r" onclick="subSell()">Publish Auction Listing →</button>
+    </div>
+    <div class="smsg" id="sellOk"><div class="si">🔨</div><h3>Listing Submitted!</h3><p>We'll verify your item and publish your auction within 2 hours. Bids will start coming in immediately.</p><div class="rid" id="sId">PM-BID-XXXX</div></div>
+  </div>
+</section>
+
+<section class="pad" id="bookanartisan" style="background:var(--bg2);">
+  <div style="text-align:center;">
+    <div class="tag ty">Fix & Services</div>
+    <h2>Book a Verified Artisan</h2>
+    <p class="sub" style="margin:0 auto;">Vetted professionals. Confirmed appointments. Zero no-shows — across Africa.</p>
+  </div>
+  <div class="fwrap">
+    <div id="artForm">
+      <div class="ftitle">🔧 Book a Job</div>
+      <div class="fnote">Electricians, plumbers, AC techs, carpenters, tilers, painters, and more</div>
+      <div class="fgrid">
+        <div class="fg"><label>Type of work</label><select id="aT"><option>Electrical work</option><option>Plumbing</option><option>AC / Fridge repair</option><option>Carpentry & Furniture</option><option>Tiling / POP / Screeding</option><option>Painting</option><option>Generator repair</option><option>Other</option></select></div>
+        <div class="fg"><label>Urgency</label><select id="aU"><option>Today (emergency)</option><option>Tomorrow</option><option>Within 3 days</option><option>This week</option><option>Flexible</option></select></div>
+        <div class="fg full"><label>Describe the job in detail</label><textarea id="aD" placeholder="e.g. Circuit breaker tripping in kitchen. Also need 2 new sockets in living room. 3-bedroom flat."></textarea></div>
+        <div class="fg"><label>Country</label><select id="aCo"><option>Nigeria 🇳🇬</option><option>Ghana 🇬🇭</option><option>Kenya 🇰🇪</option><option>South Africa 🇿🇦</option><option>Senegal 🇸🇳</option><option>Tanzania 🇹🇿</option><option>Other</option></select></div>
+        <div class="fg"><label>Location</label><input type="text" id="aL" placeholder="e.g. Ajah Lagos, Kilimani Nairobi" /></div>
+        <div class="fg"><label>Preferred time</label><select id="aTi"><option>Morning (8am–12pm)</option><option>Afternoon (12pm–4pm)</option><option>Evening (4pm–7pm)</option><option>Any time</option></select></div>
+        <div class="fg"><label>Budget range (optional)</label><select id="aBu"><option value="">Not sure yet</option><option>Under ₦10,000</option><option>₦10,000 – ₦30,000</option><option>₦30,000 – ₦80,000</option><option>Above ₦80,000</option></select></div>
+        <div class="fg"><label>WhatsApp / Phone</label><input type="text" id="aPh" placeholder="+234 800 000 0000" /></div>
+      </div>
+      <button class="sbtn sb-y" onclick="subArt()">Book Artisan →</button>
+    </div>
+    <div class="smsg" id="artOk"><div class="si">🔧</div><h3>Job Request Confirmed!</h3><p>We're matching you with the best-rated artisan for this job. Expect WhatsApp within 60 minutes.</p><div class="rid" id="aId">PM-JOB-XXXX</div></div>
+  </div>
+</section>
+
+<section class="pad" id="invest" style="background:var(--bg);">
+  <div class="tag tg">Partners & Vision</div>
+  <h2>The biggest untapped<br>trade opportunity on earth</h2>
+  <div class="igrid">
+    <div>
+      <p class="sub" style="max-width:100%;">Africa's informal commerce sector moves over $1 trillion annually across 54 countries. Fraud, price opacity, and zero trust infrastructure define every market from Lagos to Nairobi. PadiMarkit owns the trust layer — the most defensible position on the continent.</p>
+      <div class="olist">
+        <div class="oi"><div class="od"></div><div class="ot"><h4>$1 trillion+ in informal trade across Africa annually</h4><p>Balogun, Makola, Gikomba, Warwick — billions move daily with zero digital trust or verification infrastructure.</p></div></div>
+        <div class="oi"><div class="od"></div><div class="ot"><h4>Three revenue streams from day one</h4><p>Bulk deal spreads (3–10%), auction commissions on final bid price (5–10%), and artisan booking fees — all stacking from the first transaction.</p></div></div>
+        <div class="oi"><div class="od"></div><div class="ot"><h4>Offline-first moat. Digital intelligence overlay.</h4><p>Field officer networks and market relationships in each city take years to build. This cannot be replicated from a laptop anywhere else.</p></div></div>
+        <div class="oi"><div class="od"></div><div class="ot"><h4>Proven model. Clear expansion path.</h4><p>Lagos proves the model, then it ports to Accra, Abidjan, Nairobi, Dar es Salaam, and Johannesburg — using the same trust-layer playbook.</p></div></div>
+      </div>
+      <button class="btn btn-o" style="margin-top:28px;" onclick="openIM()">📩 Request Partnership Deck</button>
+    </div>
+    <div class="mgrid">
+      <div class="mc"><div class="mv">$1T+</div><div class="ml">Annual informal trade across Africa</div></div>
+      <div class="mc"><div class="mv">1.4B+</div><div class="ml">People across 54 African countries</div></div>
+      <div class="mc"><div class="mv">3–20%</div><div class="ml">Target margin per transaction</div></div>
+      <div class="mc"><div class="mv">6 Markets</div><div class="ml">Active in Year 1 plan</div></div>
+      <div class="mc s2"><div class="mv">Under ₦300K</div><div class="ml">MVP launch budget — lean, validated, built to scale continent-wide</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="testimonials" style="background:var(--bg2);">
+  <div class="tag tg">Real Users</div>
+  <h2>What people are saying</h2>
+  <div class="tgrid">
+    <div class="tc"><div class="tstars">★★★★★</div><p class="tt">"I order 50 bags of rice and 100 bottles of cooking oil every month for my restaurant chain. PadiMarkit gets me wholesale pricing I couldn't negotiate myself and delivers on time. I haven't visited a market in four months."</p><div class="ta"><div class="tav" style="background:var(--orange-dim)">👩</div><div><div class="tn">Chioma A.</div><div class="tr2">Restaurant Chain Owner · Lagos, Nigeria 🇳🇬</div></div></div></div>
+    <div class="tc"><div class="tstars">★★★★★</div><p class="tt">"I listed my Toyota Camry at 9am. By 4pm I had 11 bids and sold above my asking price. The whole process — listing, bids, payment, handover — was managed completely. Nothing like selling privately."</p><div class="ta"><div class="tav" style="background:var(--green-dim)">👨</div><div><div class="tn">Kofi M.</div><div class="tr2">Car Seller · Accra, Ghana 🇬🇭</div></div></div></div>
+    <div class="tc"><div class="tstars">★★★★★</div><p class="tt">"The plumber arrived exactly on time, fixed the issue, and charged exactly what was quoted. I manage 14 properties in Nairobi. PadiMarkit is now our official artisan partner for all maintenance work."</p><div class="ta"><div class="tav" style="background:rgba(255,209,102,.1)">👩</div><div><div class="tn">Wanjiru K.</div><div class="tr2">Property Manager · Nairobi, Kenya 🇰🇪</div></div></div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="fgridout">
+    <div class="fb2">
+      <div class="logo">Padi<span>Markit</span></div>
+      <p>Africa's most trusted platform for bulk procurement, live bidding, and verified artisan services.</p>
+      <div class="fflags">🇳🇬 Nigeria · 🇬🇭 Ghana · 🇰🇪 Kenya<br>🇿🇦 South Africa · 🇸🇳 Senegal · 🇹🇿 Tanzania</div>
+    </div>
+    <div class="fc"><h5>Services</h5><a href="#getadeal">Bulk Deals</a><a href="#sellanitem">Bid & Sell</a><a href="#bookanartisan">Book Artisan</a><a href="#marketplace">Marketplace</a></div>
+    <div class="fc"><h5>Company</h5><a href="#invest">Partners & Vision</a><a href="#howitworks">How It Works</a><a href="#artisans">Artisans</a><a href="#">Careers</a></div>
+    <div class="fc"><h5>Contact</h5><a href="#">WhatsApp Us</a><a href="#">hello@padimarkit.com</a><a href="#">Lagos, Nigeria</a></div>
+  </div>
+  <div class="fbot">
+    <p>© 2026 PadiMarkit. All rights reserved. · Africa's Most Trusted Trade Platform</p>
+    <div class="slinks"><a class="sl" href="#">📸</a><a class="sl" href="#">🐦</a><a class="sl" href="#">📱</a></div>
+  </div>
+</footer>
+
+<a class="wa" href="#">💬</a>
+
+<div class="mo" id="pModal" onclick="cModal(event)">
+  <div class="md">
+    <button class="mclose" onclick="closePM()">×</button>
+    <div class="memi" id="mEmi"></div>
+    <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;"><div class="mname" id="mName"></div><span id="mBadge" class="pbadge"></span></div>
+    <div id="mBidBar"></div>
+    <div class="mprice" id="mPrice"></div>
+    <p class="mdesc" id="mDesc"></p>
+    <div class="mspecs" id="mSpecs"></div>
+    <div class="macts" id="mActs"></div>
+  </div>
+</div>
+
+<div class="mo" id="iModal" onclick="cModal(event)">
+  <div class="md">
+    <button class="mclose" onclick="document.getElementById('iModal').classList.remove('on')">×</button>
+    <div class="memi">📊</div>
+    <div class="mname">Request Partnership Deck</div>
+    <p class="mdesc" style="margin-top:7px;">Leave your details and we'll send the full PadiMarkit deck with financials, market data, and the 90-day roadmap.</p>
+    <div style="margin-top:16px;display:flex;flex-direction:column;gap:9px;">
+      <input type="text" placeholder="Your name" />
+      <input type="text" placeholder="Email or WhatsApp" />
+      <input type="text" placeholder="Company / Fund (optional)" />
+    </div>
+    <div class="macts" style="margin-top:16px;">
+      <button class="mb2" onclick="subIM()">Send Request</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const bidItems=[
+  {id:1,cat:'cars',emoji:'🚗',name:'Toyota Camry 2015 — Fabric, Silver',meta:'Lagos, Nigeria · 79,000km',badge:'pb-bid',bt:'Live Bid',cur:'₦4,850,000',start:'₦4,200,000',bids:14,time:'6h 22m',type:'bid',desc:'Well-maintained Camry. Full AC, all windows working, no panel damage. Fresh engine service. V-boot plates.',specs:[{k:'Year',v:'2015'},{k:'Mileage',v:'79,000 km'},{k:'Colour',v:'Silver'},{k:'Transmission',v:'Automatic'}]},
+  {id:2,cat:'phones',emoji:'📱',name:'iPhone 14 Pro — 256GB, Deep Purple',meta:'Accra, Ghana · Like New',badge:'pb-bid',bt:'Live Bid',cur:'GH₵ 4,100',start:'GH₵ 3,400',bids:8,time:'11h 45m',type:'bid',desc:'Purchased Jan 2024. Always in case, screen protector on. Battery at 97%. Face ID working perfectly. Unlocked.',specs:[{k:'Storage',v:'256GB'},{k:'Battery',v:'97%'},{k:'Condition',v:'Like New'},{k:'Network',v:'Unlocked'}]},
+  {id:3,cat:'appliances',emoji:'❄️',name:'LG Double-Door Fridge — 380L',meta:'Nairobi, Kenya · Good condition',badge:'pb-bid',bt:'Live Bid',cur:'KSh 38,500',start:'KSh 28,000',bids:6,time:'23h 10m',type:'bid',desc:'LG 380L double door. Both compartments cooling perfectly. Minor scuff on left side panel. All shelves intact.',specs:[{k:'Capacity',v:'380L'},{k:'Type',v:'Double Door'},{k:'Condition',v:'Good'},{k:'Age',v:'3 years'}]},
+  {id:4,cat:'furniture',emoji:'🛋️',name:'L-Shaped Sectional Sofa — Grey',meta:'Lagos · Barely used',badge:'pb-bid',bt:'Live Bid',cur:'₦185,000',start:'₦120,000',bids:5,time:'1d 4h',type:'bid',desc:'High-quality fabric L-shaped sofa. No stains, no sagging. Moving out sale. Original receipt available.',specs:[{k:'Colour',v:'Grey'},{k:'Material',v:'Premium Fabric'},{k:'Condition',v:'Excellent'},{k:'Seats',v:'7-seater'}]},
+  {id:5,cat:'phones',emoji:'💻',name:'MacBook Air M1 — 8GB/256GB, Space Grey',meta:'Johannesburg, SA · Excellent',badge:'pb-bid',bt:'Live Bid',cur:'R 8,200',start:'R 6,500',bids:11,time:'4h 55m',type:'bid',desc:'2021 MacBook Air M1. No dents, keyboard pristine, battery at 89%. macOS Sonoma. Charger included.',specs:[{k:'Chip',v:'Apple M1'},{k:'RAM',v:'8GB'},{k:'Battery',v:'89%'},{k:'Year',v:'2021'}]},
+  {id:6,cat:'footwear',emoji:'👟',name:'Nike Air Max 270 — UK 10, White/Black',meta:'Lagos · Like New · Box included',badge:'pb-bid',bt:'Live Bid',cur:'₦39,000',start:'₦28,000',bids:3,time:'2d 6h',type:'bid',desc:'Worn twice. No sole wear. Original box, tissue, and extra laces included. Purchased at Nike Lagos.',specs:[{k:'Size',v:'UK 10'},{k:'Condition',v:'Like New'},{k:'Box',v:'Original'},{k:'Colour',v:'White/Black'}]},
+];
+const bulkItems=[
+  {id:10,cat:'fmcg',emoji:'🌾',name:'Dangote Rice — 50kg Bags',meta:'Balogun Market verified · Min 10 bags',badge:'pb-bulk',bt:'Bulk Deal',price:'₦38,500',unit:'per bag',moq:'Min order: 10 bags (₦385,000)',type:'bulk',desc:'Grade A long grain rice from verified Balogun wholesaler. Weighed and sealed at source.',specs:[{k:'Weight',v:'50kg/bag'},{k:'Grade',v:'Grade A Long Grain'},{k:'Min Order',v:'10 bags'},{k:'Delivery',v:'Africa-wide'}]},
+  {id:11,cat:'fmcg',emoji:'🫒',name:'Mamador Vegetable Oil — 5L',meta:'Distributor price · Min 24 bottles',badge:'pb-bulk',bt:'Bulk Deal',price:'₦7,900',unit:'per bottle',moq:'Min order: 1 carton (24 bottles)',type:'bulk',desc:'Authorised distributor pricing. Regular monthly supply for restaurants and retailers.',specs:[{k:'Volume',v:'5 Litres'},{k:'Min Order',v:'24 bottles'},{k:'Supply',v:'Weekly/Monthly'},{k:'Brand',v:'Mamador'}]},
+  {id:12,cat:'hygiene',emoji:'🧴',name:'Pampers Active Baby — Size 3 & 4',meta:'Authorised distributor · Min 50 packs',badge:'pb-bulk',bt:'Bulk Deal',price:'₦10,800',unit:'per pack',moq:'Min order: 50 packs',type:'bulk',desc:'Genuine Pampers from authorised distributor. Not resealed. For pharmacies and baby stores.',specs:[{k:'Sizes',v:'Size 3 & 4'},{k:'Min Order',v:'50 packs'},{k:'Auth',v:'Authorised source'},{k:'Supply',v:'Recurring available'}]},
+  {id:13,cat:'beverages',emoji:'🥤',name:'Coca-Cola Assorted — 50cl Crates',meta:'Distributor rate · Min 10 crates',badge:'pb-bulk',bt:'Bulk Deal',price:'₦4,200',unit:'per crate (24 bottles)',moq:'Min order: 10 crates',type:'bulk',desc:'Full range: Coke, Fanta, Sprite. Distributor pricing for restaurants, events, and retailers.',specs:[{k:'Per Crate',v:'24 bottles'},{k:'Sizes',v:'50cl and 35cl'},{k:'Min Order',v:'10 crates'},{k:'Variants',v:'Coke, Fanta, Sprite'}]},
+];
+const artisans=[
+  {emoji:'⚡',name:'Emmanuel Okafor',role:'Electrician',area:'Lagos, Nigeria 🇳🇬',rating:'4.9',jobs:'86',bg:'var(--orange-dim)'},
+  {emoji:'🚰',name:'James Mwangi',role:'Plumber',area:'Nairobi, Kenya 🇰🇪',rating:'4.8',jobs:'72',bg:'rgba(74,144,226,.1)'},
+  {emoji:'❄️',name:'Kwame Asante',role:'AC & Fridge Tech',area:'Accra, Ghana 🇬🇭',rating:'5.0',jobs:'114',bg:'var(--green-dim)'},
+  {emoji:'🔨',name:'Sipho Dlamini',role:'Carpenter',area:'Johannesburg, SA 🇿🇦',rating:'4.7',jobs:'59',bg:'rgba(255,209,102,.1)'},
+  {emoji:'🪣',name:'Rasheed Abiodun',role:'Tiler & POP',area:'Abuja, Nigeria 🇳🇬',rating:'4.8',jobs:'48',bg:'var(--orange-dim)'},
+  {emoji:'🎨',name:'Fatou Diallo',role:'Painter',area:'Dakar, Senegal 🇸🇳',rating:'4.9',jobs:'93',bg:'var(--green-dim)'},
+  {emoji:'⚙️',name:'Otieno Odhiambo',role:'Generator Repair',area:'Mombasa, Kenya 🇰🇪',rating:'4.7',jobs:'37',bg:'rgba(74,144,226,.1)'},
+  {emoji:'🔌',name:'Amaka Eze',role:'Electrician',area:'Port Harcourt, Nigeria 🇳🇬',rating:'5.0',jobs:'44',bg:'rgba(255,209,102,.1)'},
+];
+
+function rBid(f='all'){
+  document.getElementById('bidGrid').innerHTML=bidItems.filter(p=>f==='all'||p.cat===f).map(p=>`
+  <div class="pc" onclick="openP(${p.id},'bid')">
+    <div class="pimg"><span>${p.emoji}</span><span class="pbadge pb-bid">${p.bt}</span></div>
+    <div class="pinfo">
+      <div class="pname">${p.name}</div><div class="pmeta">${p.meta}</div>
+      <div class="bid-row">
+        <div class="brs">Current Bid</div><div class="brs">Bids</div>
+        <div class="brv pr">${p.cur}</div><div class="brv hp">${p.bids} bids</div>
+        <div class="btimer">⏱ ${p.time} remaining</div>
+      </div>
+      <button class="pact pa-bid">Place a Bid →</button>
+    </div>
+  </div>`).join('');
+}
+function fBid(c,btn){
+  document.querySelectorAll('#bfilt .fb').forEach(b=>{b.classList.remove('on');});
+  btn.classList.add('on');rBid(c);
+}
+function rBulk(f='all'){
+  document.getElementById('bulkGrid').innerHTML=bulkItems.filter(p=>f==='all'||p.cat===f).map(p=>`
+  <div class="pc" onclick="openP(${p.id},'bulk')">
+    <div class="pimg"><span>${p.emoji}</span><span class="pbadge pb-bulk">${p.bt}</span></div>
+    <div class="pinfo">
+      <div class="pname">${p.name}</div><div class="pmeta">${p.meta}</div>
+      <div class="bulk-row">
+        <div class="bprice">${p.price}<span class="bunit">${p.unit}</span></div>
+        <div class="bmoq">📦 ${p.moq}</div>
+      </div>
+      <button class="pact pa-bulk">Request Bulk →</button>
+    </div>
+  </div>`).join('');
+}
+function fBulk(c,btn){
+  document.querySelectorAll('#bkfilt .fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');rBulk(c);
+}
+function rArtisans(){
+  document.getElementById('artisansGrid').innerHTML=artisans.map(a=>`
+  <div class="acard">
+    <div class="aav" style="background:${a.bg}">${a.emoji}</div>
+    <div class="an">${a.name}</div><div class="ar">${a.role} · ${a.area}</div>
+    <div class="arating"><span class="stars">★★★★★</span><span class="rn">${a.rating}</span></div>
+    <div class="astats"><div><div class="asv">${a.jobs}</div><div class="asl">Jobs done</div></div><div><div class="asv">✅</div><div class="asl">Vetted</div></div></div>
+    <button class="bkbtn" onclick="go('#bookanartisan')">Book ${a.name.split(' ')[0]}</button>
+  </div>`).join('');
+}
+
+function openP(id,type){
+  const all=[...bidItems,...bulkItems];
+  const p=all.find(x=>x.id===id);if(!p)return;
+  document.getElementById('mEmi').textContent=p.emoji;
+  document.getElementById('mName').textContent=p.name;
+  document.getElementById('mBadge').className=`pbadge ${p.badge}`;
+  document.getElementById('mBadge').textContent=p.bt;
+  document.getElementById('mDesc').textContent=p.desc;
+  document.getElementById('mSpecs').innerHTML=p.specs.map(s=>`<div class="msi"><div class="msk">${s.k}</div><div class="msv">${s.v}</div></div>`).join('');
+  if(type==='bid'){
+    document.getElementById('mPrice').textContent='Current bid: '+p.cur;
+    document.getElementById('mBidBar').innerHTML=`<div class="lbb"><div class="lbs"><div class="lbl">Current Bid</div><div class="lbv">${p.cur}</div></div><div class="lbs"><div class="lbl">Total Bids</div><div class="lbv">${p.bids}</div></div><div class="lbs"><div class="lbl">Ends In</div><div class="lbv">${p.time}</div></div></div>`;
+    document.getElementById('mActs').innerHTML=`<button class="mb1" onclick="go('#sellanitem');closePM()">🔨 List Similar Item</button><button class="mbs" onclick="closePM()">Browse More</button>`;
+  } else {
+    document.getElementById('mPrice').textContent=p.price+' '+p.unit;
+    document.getElementById('mBidBar').innerHTML=`<div style="background:rgba(255,209,102,.07);border:1px solid rgba(255,209,102,.18);border-radius:8px;padding:9px 13px;margin-top:11px;font-size:0.8rem;color:var(--yellow)">📦 ${p.moq}</div>`;
+    document.getElementById('mActs').innerHTML=`<button class="mb2" onclick="go('#getadeal');closePM()">Request This Item</button><button class="mbs" onclick="closePM()">Browse More</button>`;
+  }
+  document.getElementById('pModal').classList.add('on');
+}
+function closePM(){document.getElementById('pModal').classList.remove('on');}
+function cModal(e){if(e.target.classList.contains('mo'))e.target.classList.remove('on');}
+
+function rnd(){return Math.random().toString(36).substr(2,6).toUpperCase();}
+function subDeal(){
+  if(!document.getElementById('dP').value||!document.getElementById('dPh').value){alert('Please fill in the products needed and your phone number.');return;}
+  document.getElementById('dealForm').style.display='none';
+  document.getElementById('dealOk').style.display='block';
+  document.getElementById('dId').textContent='PM-BULK-'+rnd();
+}
+function subSell(){
+  if(!document.getElementById('sB').value||!document.getElementById('sPh').value){alert('Please fill in the item details and your phone number.');return;}
+  document.getElementById('sellForm').style.display='none';
+  document.getElementById('sellOk').style.display='block';
+  document.getElementById('sId').textContent='PM-BID-'+rnd();
+}
+function subArt(){
+  if(!document.getElementById('aD').value||!document.getElementById('aPh').value){alert('Please describe the job and provide your phone number.');return;}
+  document.getElementById('artForm').style.display='none';
+  document.getElementById('artOk').style.display='block';
+  document.getElementById('aId').textContent='PM-JOB-'+rnd();
+}
+function pickC(el){document.querySelectorAll('.cbtn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
+function openIM(){document.getElementById('iModal').classList.add('on');}
+function subIM(){document.getElementById('iModal').classList.remove('on');setTimeout(()=>alert('Thank you! We will send the deck to your email/WhatsApp within 24 hours.'),300);}
+function setHiw(t,btn){
+  document.querySelectorAll('.ht').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.hc').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');document.getElementById('hiw-'+t).classList.add('on');
+}
+function setV(el){document.querySelectorAll('.vc').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
+function go(sel){const el=document.querySelector(sel);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+
+function animC(el){
+  const t=parseInt(el.dataset.target),s=el.dataset.suffix||'';
+  let c=0;const st=t/55;
+  const ti=setInterval(()=>{c=Math.min(c+st,t);el.textContent=Math.floor(c).toLocaleString()+s;if(c>=t)clearInterval(ti);},22);
+}
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){animC(x.target);obs.unobserve(x.target);}});},{threshold:.5});
+document.querySelectorAll('[data-target]').forEach(el=>obs.observe(el));
+
+rBid();rBulk();rArtisans();
+</script>
+</body>
+</html>
